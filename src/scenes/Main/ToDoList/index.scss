@@ -1,0 +1,11 @@
+.todo-list {
+  &__title {
+    text-align: center;
+    font-size: 2rem;
+  }
+  &__list {
+    margin: 5rem 6rem;
+    display: flex;
+    flex-direction: column;
+  }
+}

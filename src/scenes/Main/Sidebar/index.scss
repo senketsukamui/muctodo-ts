@@ -1,0 +1,23 @@
+.sidebar {
+  width: 275px;
+  background-color: #333333;
+  position: fixed;
+  height: 100%;
+  &__username {
+    font-size: 1.5rem;
+    text-align: center;
+    color: #e1f4f3;
+    padding: 1.5rem;
+  }
+  &__notes {
+    font-size: 1.2rem;
+    color: #e1f4f3;
+    margin-left: 2rem;
+  }
+  &__groups {
+    font-size: 1.2rem;
+    color: #e1f4f3;
+    margin-left: 2rem;
+  }
+  
+}
