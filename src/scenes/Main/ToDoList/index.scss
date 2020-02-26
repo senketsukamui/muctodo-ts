@@ -4,8 +4,17 @@
     font-size: 2rem;
   }
   &__list {
-    margin: 5rem 6rem;
+    margin: 0 5rem;
     display: flex;
     flex-direction: column;
+  }
+  &__add {
+    width: 100%;
+    &__button {
+      cursor: pointer;
+    }
+    &__input {
+      color: #333333;
+    }
   }
 }
