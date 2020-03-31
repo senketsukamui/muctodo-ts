@@ -24,6 +24,7 @@ const ToDoListItem = (props: ToDoListItemProps) => {
         <div className="todo-item__content">{props.content}</div>
       </div>
       <div className="todo-item__right-wrapper">
+        <div className="todo-item__edit-button">Edit</div>
         <div className="todo-item__remind-date">
           {isHovered ? `Remind at: ${props.remind_at}` : ""}
         </div>

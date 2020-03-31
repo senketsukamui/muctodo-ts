@@ -14,8 +14,6 @@ import {
   Tag,
   Tooltip
 } from "@blueprintjs/core";
-import { Classes, H5, Switch } from "@blueprintjs/core";
-import { DateTimePicker } from "@blueprintjs/datetime";
 
 const MockDataForNotes = ["Note 1", "Note 2", "Note 3", "Note 4", "Note 5"];
 const ToDoList = () => {
@@ -35,7 +33,6 @@ const ToDoList = () => {
     </div>
   );
   const [inputState, setInputState] = React.useState<string>("");
-
   return (
     <div className="todo-list">
       <div className="todo-list__title">Your tasks To Do</div>
@@ -54,7 +51,7 @@ const ToDoList = () => {
             placeholder="Add new task"
             type="text"
           ></InputGroup>
-        </div>
+        </div> 
       </div>
     </div>
   );

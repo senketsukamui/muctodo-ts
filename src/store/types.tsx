@@ -8,9 +8,9 @@ export interface StoreRootState {
 }
 
 export interface TodoState {
-  todos: TodoCategorized
-  groups: TodoGroupInfo
-
+  groups: TodoGroup[]
+  todosLoading: boolean
+  todosLoadingFailed: boolean
 }
 
 export interface Todo {
@@ -26,9 +26,7 @@ export interface Todo {
 export interface TodoGroup {
   id: PrimaryKey
   title: string
+  todos: Todo[]
   user: number
 }
 
-
-export type TodoCategorized = Record<PrimaryKey, Todo[]>
-export type TodoGroupInfo = Record<PrimaryKey, TodoGroup>
