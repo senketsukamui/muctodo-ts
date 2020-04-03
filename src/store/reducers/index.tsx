@@ -4,7 +4,7 @@ import { toDoReducer } from './todo';
 
 export const rootLevelReducer = (state: StoreRootState, action: Action) => {
   const topLevelReducer = combineReducers({
-    todos: toDoReducer
+    todo: toDoReducer
   })
 
   return topLevelReducer(state as any, action as any)

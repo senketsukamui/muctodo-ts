@@ -1,21 +1,36 @@
-import { Todo, StoreRootState, Action } from "./../types";
+import { Todo, StoreRootState, Action, TodoFetch } from "./../types";
 import { ThunkDispatch } from "redux-thunk";
-import { ActionTypes } from './index';
-import { getRequest } from './../../agent/index';
+import { ActionTypes } from "./index";
+import { getRequest, postRequest } from "./../../agent/index";
+import _ from "lodash";
 
-export const createToDo = (payload: { todo: Todo }) => (
+export const createToDo = (payload: {
+  todo: TodoFetch;
+}) => (dispatch: ThunkDispatch<StoreRootState, any, Action>) => {
+  dispatch({ type: ActionTypes.CREATE_TODO_START });
+  return postRequest("https://muctodo.a6raywa1cher.com/todos/", payload.todo)
+    .then((json: any) => {
+      dispatch({ type: ActionTypes.CREATE_TODO_SUCCESS, payload: json });
+    })
+    .catch((error: any) => {
+      dispatch({ type: ActionTypes.CREATE_TODO_FAIL });
+    });
+};
+
+export const getToDos = () => (
   dispatch: ThunkDispatch<StoreRootState, any, Action>
-) => (
-  dispatch({type: ActionTypes.CREATE_TODO_START, payload})
-);
-
-export const getToDos = () => (dispatch: ThunkDispatch<StoreRootState, any, Action>) => {
-  console.log("start1")
-  dispatch({type: ActionTypes.GET_TODOS_START})
-  console.log("start2")
-  return getRequest("https://muctodo.a6raywa1cher.com/todo_groups").then((json: any) => {
-  dispatch({type: ActionTypes.GET_TODOS_SUCCESS, payload: json})
-  }).catch(() => {
-    dispatch({type: ActionTypes.GET_TODOS_FAIL})
-  })
-}
+) => {
+  dispatch({ type: ActionTypes.GET_TODOS_START });
+  return getRequest("https://muctodo.a6raywa1cher.com/todo_groups/")
+    .then((json: any) => {
+      console.log("get", json)
+      dispatch({
+        type: ActionTypes.GET_TODOS_SUCCESS,
+        payload: json
+      });
+    })
+    .catch((error: any) => {
+      console.error("getRequestError", error)
+      dispatch({ type: ActionTypes.GET_TODOS_FAIL });
+    });
+};

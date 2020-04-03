@@ -1,12 +1,11 @@
 import _ from "lodash";
 export const constructGenericRequestHeaders = () => ({
-  "Content-Type": "application/json",
-  "Access-Control-Allow-Origin": "https://muctodo.a6raywa1cher.com"
+  "Content-Type": "application/json"
 });
 
 export const constructRequestHeaders = (params = {}) => {
   const authToken =
-    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNTg1Njc0MzcxLCJlbWFpbCI6IiJ9.sOiTl7mLdeelbJucql2blTDkQgzFkKyxj_ZsLCs_syg";
+    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNTg4MDk4MTk2LCJlbWFpbCI6IiJ9.IlvQxw6gvuXtAKACwwf9x7mmO2CdG57LGmAi1zhRolo";
   return {
     ...constructGenericRequestHeaders(),
     ...(authToken ? { Authorization: `JWT ${authToken}` } : {}),
@@ -19,7 +18,19 @@ export const getRequest = (url: string, body = {}) => {
     method: "GET",
     headers: constructRequestHeaders()
   }).then((response: Response) => {
-    console.log("response", response.json())
     return response.json();
+  });
+};
+
+export const postRequest = (url: string, body = {}) => {
+  return fetch(url, {
+    method: "POST",
+    headers: constructRequestHeaders(),
+    body: JSON.stringify(body)
+  }).then((response: Response) => {
+    if (response.ok) {
+      return response.json();
+    }
+    console.error("Error")
   });
 };
