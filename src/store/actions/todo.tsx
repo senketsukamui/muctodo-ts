@@ -23,10 +23,9 @@ export const getToDos = () => (
   dispatch({ type: ActionTypes.GET_TODOS_START });
   return getRequest("https://muctodo.a6raywa1cher.com/todo_groups/")
     .then((json: any) => {
-      console.log("get", json)
       dispatch({
         type: ActionTypes.GET_TODOS_SUCCESS,
-        payload: json
+        payload: _.keyBy(json, "id")
       });
     })
     .catch((error: any) => {
