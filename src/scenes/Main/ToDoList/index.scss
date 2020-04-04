@@ -18,3 +18,11 @@
     }
   }
 }
+
+
+.right-input-element {
+  display: flex;
+  &__date-picker {
+    margin: 0.3rem 2rem;
+  }
+}

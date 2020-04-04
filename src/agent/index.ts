@@ -5,7 +5,7 @@ export const constructGenericRequestHeaders = () => ({
 
 export const constructRequestHeaders = (params = {}) => {
   const authToken =
-    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNTg4MDk4MTk2LCJlbWFpbCI6IiJ9.IlvQxw6gvuXtAKACwwf9x7mmO2CdG57LGmAi1zhRolo";
+    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNTg4MTc1MjI1LCJlbWFpbCI6IiJ9.rqqyOT0uZwCguk_W2jX9PKVK-207WjPXdDgiRIVVzMY";
   return {
     ...constructGenericRequestHeaders(),
     ...(authToken ? { Authorization: `JWT ${authToken}` } : {}),
