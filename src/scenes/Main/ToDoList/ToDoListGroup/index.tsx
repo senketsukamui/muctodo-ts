@@ -34,7 +34,7 @@ const ToDoListGroup = (props: any) => {
   );
   return (
     <div>
-      <div className="todo-group__title">{props.groupedTodos.title}</div>
+      <div>{props.groupedTodos.title}</div>
       <div className="todo-group">{renderedGroupedTodos}</div>
       <InputGroup
             ref={inputRef}

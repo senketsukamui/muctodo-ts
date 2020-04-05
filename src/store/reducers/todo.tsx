@@ -9,6 +9,8 @@ const initialState: TodoState = {
   todosLoadingFailed: false,
   todoCreating: false,
   todoCreatingFailed: false,
+  groupCreating: false,
+  groupCreatingFailed: false,
 };
 
 export const toDoReducer = createReducer<TodoState, Action>(
@@ -49,6 +51,19 @@ export const toDoReducer = createReducer<TodoState, Action>(
       todoCreating: false,
       todoCreatingFailed: true,
     }),
+    [ActionTypes.CREATE_GROUP_START]: (state: TodoState, action: any) => ({
+      ...state,
+      todoCreating: true
+    }),
+    [ActionTypes.CREATE_GROUP_SUCCESS]: (state: TodoState, action: any) => ({
+      ...state,
+      groups: {
+        ...state.groups,
+        [action.payload.id]: action.payload
+      },
+      groupCreating: false,
+      groupCreatingFailed: false
+    })
   },
   initialState
 );

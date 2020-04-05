@@ -13,6 +13,8 @@ export interface TodoState {
   todosLoadingFailed: boolean
   todoCreating: boolean
   todoCreatingFailed: boolean
+  groupCreating: boolean
+  groupCreatingFailed: boolean
 }
 
 export interface Todo {
