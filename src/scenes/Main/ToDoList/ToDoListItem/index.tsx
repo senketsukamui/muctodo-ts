@@ -1,15 +1,21 @@
 import React from "react";
 import "./index.scss";
-import { Todo } from "../../../../store/types";
-import { Button, Icon } from "@blueprintjs/core";
+import { Todo, PrimaryKey } from "../../../../store/types";
+import { Button, Icon, PopoverPosition } from "@blueprintjs/core";
+import { formatISO } from "date-fns";
+import { connect } from "react-redux";
+import { deleteToDo } from "../../../../store/actions/todo";
 // interface ToDoListItemProps extends Todo {}
 interface ToDoListItemProps {
-  content: string;
-  remind_at: number;
+  todo: Todo
+  deleteToDo: (payload: {id: PrimaryKey, group: PrimaryKey}) => Promise<any>
 }
 
 const ToDoListItem = (props: ToDoListItemProps) => {
   const [isHovered, setHovered] = React.useState<boolean>(false);
+  const onDeleteClick = () => {
+    props.deleteToDo({id: props.todo.id, group: props.todo.group})
+  }
   return (
     <div
       className="todo-item"
@@ -21,16 +27,23 @@ const ToDoListItem = (props: ToDoListItemProps) => {
           className="todo-item__complete-button"
           icon={isHovered ? "confirm" : "circle"}
         />
-        <div className="todo-item__content">{props.content}</div>
+        <div className="todo-item__content">{props.todo.content}</div>
       </div>
       <div className="todo-item__right-wrapper">
-        <div className="todo-item__edit-button">Edit</div>
+        <div className="todo-item__edit-button"><Button icon="edit">Edit</Button></div>
+        <div className="todo-item__delete-button">
+          <Button icon="trash" intent="danger" onClick ={onDeleteClick}>Delete</Button>
+        </div>
         <div className="todo-item__remind-date">
-          {isHovered ? `Remind at: ${props.remind_at}` : ""}
+          {props.todo.remind_at === null
+            ? ""
+            : `Remind at: ${formatISO(new Date(props.todo.remind_at), {
+                representation: "date",
+              })}`}
         </div>
       </div>
     </div>
   );
 };
 
-export default ToDoListItem;
+export default connect(null, {deleteToDo})(ToDoListItem);

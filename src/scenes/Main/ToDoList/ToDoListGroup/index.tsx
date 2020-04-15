@@ -9,7 +9,7 @@ import { createToDo } from './../../../../store/actions/todo';
 
 const ToDoListGroup = (props: any) => {
   const renderedGroupedTodos = props.groupedTodos.todos.map((p: any) => (
-    <ToDoListItem content={p.content} remind_at={p.remind_at} />
+    <ToDoListItem todo = {p} />
   ));
   const currentGroup = props.groupedTodos.id;
   const onAddClick = () => {
@@ -24,7 +24,7 @@ const ToDoListGroup = (props: any) => {
   const inputRef = React.createRef<InputGroup>();
   const [remindDate, setRemindDate] = React.useState<Date>(new Date());
   const [inputState, setInputState] = React.useState<string>("");
-  const rightInputElement = (
+  const rightInputElement = ( 
     <div className = "right-input-element">
        <DatePicker className = "right-input-element__date-picker form-control" selected = {remindDate} onChange = {(date: Date) => setRemindDate(date)}/>
       <Button className="right-input-element__button" onClick = {onAddClick}>

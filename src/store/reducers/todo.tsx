@@ -9,6 +9,8 @@ const initialState: TodoState = {
   todosLoadingFailed: false,
   todoCreating: false,
   todoCreatingFailed: false,
+  todoDeleting: false,
+  todoDeletingFailed: false,
   groupCreating: false,
   groupCreatingFailed: false,
 };
@@ -53,17 +55,34 @@ export const toDoReducer = createReducer<TodoState, Action>(
     }),
     [ActionTypes.CREATE_GROUP_START]: (state: TodoState, action: any) => ({
       ...state,
-      todoCreating: true
+      todoCreating: true,
     }),
     [ActionTypes.CREATE_GROUP_SUCCESS]: (state: TodoState, action: any) => ({
       ...state,
       groups: {
         ...state.groups,
-        [action.payload.id]: action.payload
+        [action.payload.id]: action.payload,
       },
       groupCreating: false,
-      groupCreatingFailed: false
-    })
+      groupCreatingFailed: false,
+    }),
+    [ActionTypes.DELETE_TODO_START]: (state: TodoState, action: any) => ({
+      ...state,
+    }),
+    [ActionTypes.DELETE_TODO_SUCCESS]: (state: TodoState, action: any) => ({
+      ...state,
+      groups: {
+        ...state.groups,
+        [action.payload.group]: {
+          ...action.payload.group,
+          todos: [
+            action.payload.group.todos.filter(
+              (todo: any) => todo.id !== action.payload.id
+            ),
+          ],
+        },
+      },
+    }),
   },
   initialState
 );

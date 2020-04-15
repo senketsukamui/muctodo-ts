@@ -34,3 +34,16 @@ export const postRequest = (url: string, body = {}) => {
     console.error("Error")
   });
 };
+
+export const deleteRequest = (url: string, body = {}) => {
+  return fetch(url, {
+    method: "DELETE",
+    headers: constructRequestHeaders(),
+    body: JSON.stringify(body)
+  }).then((response: Response) => {
+    if (response.ok) {
+      return response.json();
+    }
+    console.error("Error")
+  });
+};

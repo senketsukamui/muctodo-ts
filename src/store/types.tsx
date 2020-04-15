@@ -13,10 +13,11 @@ export interface TodoState {
   todosLoadingFailed: boolean
   todoCreating: boolean
   todoCreatingFailed: boolean
+  todoDeleting: false
+  todoDeletingFailed: false
   groupCreating: boolean
   groupCreatingFailed: boolean
 }
-
 export interface Todo {
   id: PrimaryKey
   content: string
