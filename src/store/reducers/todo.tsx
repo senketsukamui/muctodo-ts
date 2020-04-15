@@ -74,12 +74,11 @@ export const toDoReducer = createReducer<TodoState, Action>(
       groups: {
         ...state.groups,
         [action.payload.group]: {
-          ...action.payload.group,
-          todos: [
-            action.payload.group.todos.filter(
+          ...state.groups[action.payload.group],
+          todos: 
+            state.groups[action.payload.group].todos.filter(
               (todo: any) => todo.id !== action.payload.id
             ),
-          ],
         },
       },
     }),

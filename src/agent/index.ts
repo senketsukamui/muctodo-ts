@@ -41,9 +41,6 @@ export const deleteRequest = (url: string, body = {}) => {
     headers: constructRequestHeaders(),
     body: JSON.stringify(body)
   }).then((response: Response) => {
-    if (response.ok) {
-      return response.json();
-    }
     console.error("Error")
   });
 };
