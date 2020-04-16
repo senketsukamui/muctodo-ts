@@ -7,7 +7,7 @@ import {
 } from "./../types";
 import { ThunkDispatch } from "redux-thunk";
 import { ActionTypes } from "./index";
-import { getRequest, postRequest, deleteRequest } from "./../../agent/index";
+import { getRequest, postRequest, deleteRequest, patchRequest } from "./../../agent/index";
 import _ from "lodash";
 
 export const createToDo = (payload: { todo: TodoFetch }) => (
@@ -61,7 +61,10 @@ export const deleteToDo = (payload: { id: PrimaryKey; group: PrimaryKey }) => (
   dispatch: ThunkDispatch<StoreRootState, any, Action>
 ) => {
   dispatch({ type: ActionTypes.DELETE_TODO_START });
-  return deleteRequest(`https://muctodo.a6raywa1cher.com/todos/${payload.id}/`, payload)
+  return deleteRequest(
+    `https://muctodo.a6raywa1cher.com/todos/${payload.id}/`,
+    payload
+  )
     .then((json: any) => {
       dispatch({ type: ActionTypes.DELETE_TODO_SUCCESS, payload });
     })
@@ -69,4 +72,19 @@ export const deleteToDo = (payload: { id: PrimaryKey; group: PrimaryKey }) => (
       console.error("deleteRequestError", error);
       dispatch({ type: ActionTypes.DELETE_TODO_FAIL });
     });
+};
+
+export const editToDo = (payload: TodoFetch & { id: PrimaryKey }) => (
+  dispatch: ThunkDispatch<StoreRootState, any, Action>
+) => {
+  dispatch({ type: ActionTypes.EDIT_TODO_START });
+  return patchRequest(
+    `https://muctodo.a6raywa1cher.com/todos/${payload.id}/`,
+    payload
+  ).then((json: any) => {
+    dispatch({ type: ActionTypes.EDIT_TODO_SUCCESS, payload });
+  }).catch((error: any) => {
+    console.error(error);
+    dispatch({type: ActionTypes.EDIT_TODO_FAIL})
+  })
 };

@@ -44,3 +44,16 @@ export const deleteRequest = (url: string, body = {}) => {
     console.error("Error")
   });
 };
+
+export const patchRequest = (url: string, body = {}) => {
+  return fetch(url, {
+    method: "PATCH",
+    headers: constructRequestHeaders(),
+    body: JSON.stringify(body)
+  }).then((response: Response) => {
+    if (response.ok) {
+      return response.json();
+    }
+    console.error("Error")
+  });
+};
