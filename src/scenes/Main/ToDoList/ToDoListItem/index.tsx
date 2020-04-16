@@ -1,21 +1,48 @@
 import React from "react";
 import "./index.scss";
-import { Todo, PrimaryKey } from "../../../../store/types";
-import { Button, Icon, PopoverPosition } from "@blueprintjs/core";
+import { Todo, PrimaryKey, TodoFetch } from "../../../../store/types";
+import { Button, Icon, PopoverPosition, TextArea } from "@blueprintjs/core";
 import { formatISO } from "date-fns";
 import { connect } from "react-redux";
 import { deleteToDo } from "../../../../store/actions/todo";
-// interface ToDoListItemProps extends Todo {}
+import { editToDo } from "./../../../../store/actions/todo";
 interface ToDoListItemProps {
-  todo: Todo
-  deleteToDo: (payload: {id: PrimaryKey, group: PrimaryKey}) => Promise<any>
+  todo: Todo;
+  deleteToDo: (payload: { id: PrimaryKey; group: PrimaryKey }) => Promise<any>;
+  editToDo: (payload: TodoFetch & { id: PrimaryKey }) => Promise<any>;
 }
 
 const ToDoListItem = (props: ToDoListItemProps) => {
   const [isHovered, setHovered] = React.useState<boolean>(false);
+  const [isEditable, setEditable] = React.useState<boolean>(false);
+  const [todoInput, setTodoInput] = React.useState<string>(props.todo.content);
   const onDeleteClick = () => {
-    props.deleteToDo({id: props.todo.id, group: props.todo.group})
-  }
+    props.deleteToDo({ id: props.todo.id, group: props.todo.group });
+  };
+  const onKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "Enter") {
+      setEditable(!isEditable);
+      props.editToDo({
+        id: props.todo.id,
+        content: todoInput,
+        remind_at: props.todo.remind_at,
+        group: props.todo.group,
+        position: props.todo.position,
+      });
+    }
+  };
+  const onEditClick = (e: any) => {
+    if (isEditable === true) {
+      props.editToDo({
+        id: props.todo.id,
+        content: todoInput,
+        remind_at: props.todo.remind_at,
+        group: props.todo.group,
+        position: props.todo.position,
+      });
+    }
+    setEditable(!isEditable);
+  };
   return (
     <div
       className="todo-item"
@@ -27,12 +54,29 @@ const ToDoListItem = (props: ToDoListItemProps) => {
           className="todo-item__complete-button"
           icon={isHovered ? "confirm" : "circle"}
         />
-        <div className="todo-item__content">{props.todo.content}</div>
+        {!isEditable ? (
+          <div className="todo-item__content">{todoInput}</div>
+        ) : (
+          <textarea
+            className="todo-item__content-edit"
+            onKeyPress={(e: any) => onKeyPress(e)}
+            onChange={(e: any) => setTodoInput(e.target.value)}
+            autoFocus
+          >
+            {todoInput}
+          </textarea>
+        )}
       </div>
       <div className="todo-item__right-wrapper">
-        <div className="todo-item__edit-button"><Button icon="edit">Edit</Button></div>
+        <div className="todo-item__edit-button">
+          <Button icon="edit" onClick={onEditClick}>
+            Edit
+          </Button>
+        </div>
         <div className="todo-item__delete-button">
-          <Button icon="trash" intent="danger" onClick ={onDeleteClick}>Delete</Button>
+          <Button icon="trash" intent="danger" onClick={onDeleteClick}>
+            Delete
+          </Button>
         </div>
         <div className="todo-item__remind-date">
           {props.todo.remind_at === null
@@ -46,4 +90,4 @@ const ToDoListItem = (props: ToDoListItemProps) => {
   );
 };
 
-export default connect(null, {deleteToDo})(ToDoListItem);
+export default connect(null, { deleteToDo, editToDo })(ToDoListItem);

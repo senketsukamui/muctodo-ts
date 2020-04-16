@@ -9,7 +9,6 @@ import { Todo, TodoFetch, PrimaryKey } from "./../../store/types";
 interface MainSceneProps {
   getToDos: () => Promise<any>;
   createToDo: (payload: { todo: TodoFetch }) => Promise<any>;
-  editToDo: (payload: TodoFetch & { id: PrimaryKey }) => Promise<any>;
 }
 
 const MainScene = (props: MainSceneProps) => {
