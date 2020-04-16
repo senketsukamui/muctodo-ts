@@ -4,17 +4,18 @@ import "./index.scss";
 import ToDoList from "./ToDoList";
 import { connect } from "react-redux";
 import { getToDos } from "../../store/actions/todo";
-import { createToDo } from './../../store/actions/todo';
-import { Todo, TodoFetch } from './../../store/types';
+import { createToDo, editToDo } from "./../../store/actions/todo";
+import { Todo, TodoFetch, PrimaryKey } from "./../../store/types";
 interface MainSceneProps {
   getToDos: () => Promise<any>;
-  createToDo: (payload: {todo: TodoFetch}) => Promise<any>
+  createToDo: (payload: { todo: TodoFetch }) => Promise<any>;
+  editToDo: (payload: TodoFetch & { id: PrimaryKey }) => Promise<any>;
 }
 
 const MainScene = (props: MainSceneProps) => {
   React.useEffect(() => {
     props.getToDos();
-  }, [])
+  }, []);
   return (
     <div className="main-scene">
       <Sidebar />
@@ -27,4 +28,4 @@ const MainScene = (props: MainSceneProps) => {
   );
 };
 
-export default connect(null, { getToDos,createToDo })(MainScene);
+export default connect(null, { getToDos, createToDo, editToDo })(MainScene);

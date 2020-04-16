@@ -7,7 +7,12 @@ import {
 } from "./../types";
 import { ThunkDispatch } from "redux-thunk";
 import { ActionTypes } from "./index";
-import { getRequest, postRequest, deleteRequest, patchRequest } from "./../../agent/index";
+import {
+  getRequest,
+  postRequest,
+  deleteRequest,
+  patchRequest,
+} from "./../../agent/index";
 import _ from "lodash";
 
 export const createToDo = (payload: { todo: TodoFetch }) => (
@@ -81,10 +86,12 @@ export const editToDo = (payload: TodoFetch & { id: PrimaryKey }) => (
   return patchRequest(
     `https://muctodo.a6raywa1cher.com/todos/${payload.id}/`,
     payload
-  ).then((json: any) => {
-    dispatch({ type: ActionTypes.EDIT_TODO_SUCCESS, payload });
-  }).catch((error: any) => {
-    console.error(error);
-    dispatch({type: ActionTypes.EDIT_TODO_FAIL})
-  })
+  )
+    .then((json: any) => {
+      dispatch({ type: ActionTypes.EDIT_TODO_SUCCESS, payload: { json } });
+    })
+    .catch((error: any) => {
+      console.error(error);
+      dispatch({ type: ActionTypes.EDIT_TODO_FAIL });
+    });
 };

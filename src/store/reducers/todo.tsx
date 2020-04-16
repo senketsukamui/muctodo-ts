@@ -1,5 +1,5 @@
 import { createReducer } from "./../helpers";
-import { TodoState } from "../types";
+import { TodoState, Todo } from "../types";
 import { Action } from "./../types";
 import { ActionTypes } from "./../actions/index";
 import _ from "lodash";
@@ -13,6 +13,8 @@ const initialState: TodoState = {
   todoDeletingFailed: false,
   groupCreating: false,
   groupCreatingFailed: false,
+  todoEditing: false,
+  todoEditingFailed: false,
 };
 
 export const toDoReducer = createReducer<TodoState, Action>(
@@ -55,7 +57,7 @@ export const toDoReducer = createReducer<TodoState, Action>(
     }),
     [ActionTypes.CREATE_GROUP_START]: (state: TodoState, action: any) => ({
       ...state,
-      todoCreating: true,
+      groupCreating: true,
     }),
     [ActionTypes.CREATE_GROUP_SUCCESS]: (state: TodoState, action: any) => ({
       ...state,
@@ -66,8 +68,14 @@ export const toDoReducer = createReducer<TodoState, Action>(
       groupCreating: false,
       groupCreatingFailed: false,
     }),
+    [ActionTypes.CREATE_GROUP_FAIL]: (state: TodoState, action: any) => ({
+      ...state,
+      groupCreating: false,
+      groupCreatingFailed: true
+    }),
     [ActionTypes.DELETE_TODO_START]: (state: TodoState, action: any) => ({
       ...state,
+      todoDeleting: true
     }),
     [ActionTypes.DELETE_TODO_SUCCESS]: (state: TodoState, action: any) => ({
       ...state,
@@ -75,13 +83,47 @@ export const toDoReducer = createReducer<TodoState, Action>(
         ...state.groups,
         [action.payload.group]: {
           ...state.groups[action.payload.group],
-          todos: 
-            state.groups[action.payload.group].todos.filter(
-              (todo: any) => todo.id !== action.payload.id
-            ),
+          todos: state.groups[action.payload.group].todos.filter(
+            (todo: any) => todo.id !== action.payload.id
+          ),
         },
       },
+      todoDeleting: false,
+      todoDeletingFailed: false
     }),
+    [ActionTypes.DELETE_TODO_FAIL]: (state: TodoState, action: any) => ({
+      ...state,
+      todoDeletingFailed: true,
+      todoDeleting: false
+    }),
+    [ActionTypes.EDIT_TODO_START]: (state: TodoState, action: any) => ({
+      ...state,
+      todoEditing: true,
+    }),
+
+    [ActionTypes.EDIT_TODO_SUCCESS]: (state: TodoState, action: any) => {
+      const { json } = action.payload;
+
+      const idx = state.groups[json.group].todos.findIndex(
+        (todo) => todo.id === json.id
+      );
+      if (idx !== -1) return state;
+
+      const nextGroups = { ...state.groups };
+      nextGroups[action.payload.json.group].todos[idx] = action.payload.json;
+
+      return {
+        ...state,
+        groups: nextGroups,
+        todoEditing: false,
+        todoEditingFailed: false
+      };
+    },
+    [ActionTypes.EDIT_TODO_FAIL]: (state: TodoState, action: any) => ({
+      ...state,
+      todoEditingFailed: true,
+      todoEditing: false
+    })
   },
   initialState
 );
