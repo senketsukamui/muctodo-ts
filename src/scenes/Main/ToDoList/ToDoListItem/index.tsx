@@ -9,7 +9,7 @@ import { editToDo } from "./../../../../store/actions/todo";
 interface ToDoListItemProps {
   todo: Todo;
   deleteToDo: (payload: { id: PrimaryKey; group: PrimaryKey }) => Promise<any>;
-  editToDo: (payload: TodoFetch & { id: PrimaryKey }) => Promise<any>;
+  editToDo: (payload: TodoFetch & { id: PrimaryKey, completed?: boolean }) => Promise<any>;
 }
 
 const ToDoListItem = (props: ToDoListItemProps) => {
@@ -43,6 +43,17 @@ const ToDoListItem = (props: ToDoListItemProps) => {
     }
     setEditable(!isEditable);
   };
+
+  const onCompleteClick = (e: any) => {
+    props.editToDo({
+      id: props.todo.id,
+      content: todoInput,
+      remind_at: props.todo.remind_at,
+      group: props.todo.group,
+      position: props.todo.position,
+      completed: !props.todo.completed
+    })
+  }
   return (
     <div
       className="todo-item"
@@ -52,10 +63,11 @@ const ToDoListItem = (props: ToDoListItemProps) => {
       <div className="todo-item__left-wrapper">
         <Icon
           className="todo-item__complete-button"
-          icon={isHovered ? "confirm" : "circle"}
+          icon={props.todo.completed ? "confirm" : "circle"}
+          onClick = {onCompleteClick}
         />
         {!isEditable ? (
-          <div className="todo-item__content">{todoInput}</div>
+          <div className="todo-item__content">{props.todo.content}</div>
         ) : (
           <textarea
             className="todo-item__content-edit"
@@ -68,11 +80,11 @@ const ToDoListItem = (props: ToDoListItemProps) => {
         )}
       </div>
       <div className="todo-item__right-wrapper">
-        <div className="todo-item__edit-button">
+        {!props.todo.completed?<div className="todo-item__edit-button">
           <Button icon="edit" onClick={onEditClick}>
             Edit
           </Button>
-        </div>
+        </div>: ""}
         <div className="todo-item__delete-button">
           <Button icon="trash" intent="danger" onClick={onDeleteClick}>
             Delete

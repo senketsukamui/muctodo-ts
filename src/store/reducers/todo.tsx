@@ -107,7 +107,7 @@ export const toDoReducer = createReducer<TodoState, Action>(
       const idx = state.groups[json.group].todos.findIndex(
         (todo) => todo.id === json.id
       );
-      if (idx !== -1) return state;
+      if (idx === -1) return state;
 
       const nextGroups = { ...state.groups };
       nextGroups[action.payload.json.group].todos[idx] = action.payload.json;

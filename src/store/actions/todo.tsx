@@ -79,17 +79,15 @@ export const deleteToDo = (payload: { id: PrimaryKey; group: PrimaryKey }) => (
     });
 };
 
-export const editToDo = (payload: TodoFetch & { id: PrimaryKey }) => (
+export const editToDo = (payload: TodoFetch & { id: PrimaryKey, completed?: boolean }) => (
   dispatch: ThunkDispatch<StoreRootState, any, Action>
 ) => {
-  console.log(payload)
   dispatch({ type: ActionTypes.EDIT_TODO_START });
   return patchRequest(
     `https://muctodo.a6raywa1cher.com/todos/${payload.id}/`,
     payload
   )
     .then((json: any) => {
-      console.log("json", json)
       dispatch({ type: ActionTypes.EDIT_TODO_SUCCESS, payload: { json } });
     })
     .catch((error: any) => {
