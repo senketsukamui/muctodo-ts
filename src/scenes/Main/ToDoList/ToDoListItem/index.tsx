@@ -34,6 +34,7 @@ const ToDoListItem = (props: ToDoListItemProps) => {
   const onEditClick = (e: any) => {
     if (isEditable === true) {
       props.editToDo({
+        
         id: props.todo.id,
         content: todoInput,
         remind_at: props.todo.remind_at,

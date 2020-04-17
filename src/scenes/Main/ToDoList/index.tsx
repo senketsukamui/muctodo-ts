@@ -27,7 +27,7 @@ const ToDoList = (props: any) => {
   if (props.todosLoading) {
     return <Loader />;
   } else if (props.todosLoadingFailed) {
-    return <div>Something went wrong</div>
+    return <div>Something went wrong</div>;
   } else {
     return (
       <div className="todo-list">
@@ -57,4 +57,3 @@ export default connect(
   }),
   { createGroup }
 )(ToDoList);
-
