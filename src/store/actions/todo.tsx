@@ -18,6 +18,7 @@ import _ from "lodash";
 export const createToDo = (payload: { todo: TodoFetch }) => (
   dispatch: ThunkDispatch<StoreRootState, any, Action>
 ) => {
+  console.log("todo", payload)
   dispatch({ type: ActionTypes.CREATE_TODO_START });
   return postRequest("https://muctodo.a6raywa1cher.com/todos/", payload)
     .then((json: any) => {

@@ -42,4 +42,8 @@ export interface TodoGroup {
   user: number;
 }
 
+export interface UserState {
+  token: string
+}
+
 export type Todos = Record<PrimaryKey, TodoGroup>;

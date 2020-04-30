@@ -8,6 +8,7 @@ body {
   font-family: 'sfprodisplay', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: lightblue;
 }
 
 code {
@@ -31,4 +32,17 @@ code {
   font-family: sfprodisplay;
   src: url('./assets/sfprodisplay/SFProDisplay-Bold.woff');
   font-weight: 700;
+}
+
+.font-medium{
+  font-size: 1.5rem;
+}
+.font-big{
+  font-size: 2rem;
+}
+.text-center {
+  text-align: center;
+}
+.background-color {
+  background-color:rgba(0, 0, 0, 0.65);
 }
