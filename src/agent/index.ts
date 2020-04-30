@@ -29,7 +29,6 @@ export const postRequest = (url: string, body = {}) => {
     body: JSON.stringify(body),
   }).then((response: Response) => {
     if (response.ok) {
-      console.log(response.json());
       return response.json();
     }
     console.error("Error");
