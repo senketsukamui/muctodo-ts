@@ -45,7 +45,6 @@ const ToDoListGroup = (props: any) => {
         className="todo-list__add__input"
         leftIcon="add"
         rightElement={rightInputElement}
-        fill={true}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setInputState(e.target.value)
         }

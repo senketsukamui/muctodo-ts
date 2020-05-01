@@ -15,7 +15,7 @@ function App() {
   )
   return (
     <Provider store = {store}>
-    <BrowserRouter>{appRoutes}</BrowserRouter>>
+    <BrowserRouter>{appRoutes}</BrowserRouter>
     </Provider>
   );
 }

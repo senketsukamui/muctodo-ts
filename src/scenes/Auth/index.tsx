@@ -1,5 +1,5 @@
 import React from "react";
-import { InputGroup, Button } from "@blueprintjs/core";
+import { InputGroup, Button, Icon } from "@blueprintjs/core";
 import "./index.scss";
 import { userLogin } from "./../../store/actions/user";
 import { connect } from "react-redux";
@@ -29,6 +29,7 @@ const AuthScene = (props: AuthSceneProps) => {
           <InputGroup
             type="text"
             large
+            leftIcon="user"
             placeholder="enter your username"
             onChange={(e: any) => setUsername(e.target.value)}
           />
@@ -38,6 +39,7 @@ const AuthScene = (props: AuthSceneProps) => {
           <InputGroup
             type="password"
             large
+            leftIcon="key"
             placeholder="enter your password"
             onChange={(e: any) => setPassword(e.target.value)}
           />
