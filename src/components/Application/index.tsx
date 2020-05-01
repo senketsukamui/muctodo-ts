@@ -9,7 +9,7 @@ import AuthScene from '../../scenes/Auth';
 function App() {
   const appRoutes = (
     <Switch>
-    <Route path="/list" component ={MainScene}/>
+    <Route path="/" exact = {true} component ={MainScene}/>
     <Route path="/auth" exact = {true} component={AuthScene} />
     </Switch>
   )

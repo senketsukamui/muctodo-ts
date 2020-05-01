@@ -28,6 +28,10 @@ export const userReducer = createReducer<UserState, Action>(
     [ActionTypes.SET_TOKEN]: (state: UserState, action: any) => ({
       ...state,
       token: action.payload.token
+    }),
+    [ActionTypes.DELETE_TOKEN]: (state: UserState, action: any) => ({
+      ...state, 
+      token: ""
     })
   }, initialState
 )
