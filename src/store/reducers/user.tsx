@@ -24,6 +24,10 @@ export const userReducer = createReducer<UserState, Action>(
       ...state,
       userLogin: false,
       userLoginFailed: true
+    }),
+    [ActionTypes.SET_TOKEN]: (state: UserState, action: any) => ({
+      ...state,
+      token: action.payload.token
     })
   }, initialState
 )

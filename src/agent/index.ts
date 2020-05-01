@@ -1,11 +1,11 @@
 import _ from "lodash";
+import { getLocalStorageToken } from "../utils";
 export const constructGenericRequestHeaders = () => ({
   "Content-Type": "application/json",
 });
 
 export const constructRequestHeaders = (params = {}) => {
-  const authToken =
-    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNTkwMzM2MDIxLCJlbWFpbCI6IiJ9.H8GV_FFaXAYq2n-J_0-uaGuLZlHs3bU_5VtSZ0BH2rs";
+  const authToken = getLocalStorageToken();
   return {
     ...constructGenericRequestHeaders(),
     ...(authToken ? { Authorization: `JWT ${authToken}` } : {}),

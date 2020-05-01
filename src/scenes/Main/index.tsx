@@ -5,13 +5,20 @@ import ToDoList from "./ToDoList";
 import { connect } from "react-redux";
 import { getToDos } from "../../store/actions/todo";
 import { createToDo, editToDo } from "./../../store/actions/todo";
-import { Todo, TodoFetch, PrimaryKey } from "./../../store/types";
+import { Todo, TodoFetch, PrimaryKey, StoreRootState } from "./../../store/types";
+import { withRouter, Redirect, useHistory } from "react-router-dom";
+import { getLocalStorageToken } from "../../utils";
 interface MainSceneProps {
   getToDos: () => Promise<any>;
   createToDo: (payload: { todo: TodoFetch }) => Promise<any>;
+  token: string | null
 }
 
 const MainScene = (props: MainSceneProps) => {
+  const history = useHistory()
+  if(!getLocalStorageToken()) {
+    history.push("/auth")
+  }
   React.useEffect(() => {
     props.getToDos();
   }, []);
@@ -27,4 +34,4 @@ const MainScene = (props: MainSceneProps) => {
   );
 };
 
-export default connect(null, { getToDos, createToDo, editToDo })(MainScene);
+export default connect((store: StoreRootState) => ({token: store.user.token}), { getToDos, createToDo, editToDo })(MainScene);

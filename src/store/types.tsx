@@ -5,6 +5,7 @@ export interface Action {
 export type PrimaryKey = number;
 export interface StoreRootState {
   todo: TodoState;
+  user: UserState
 }
 
 export interface TodoState {

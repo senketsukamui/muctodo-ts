@@ -10,7 +10,7 @@ function App() {
   const appRoutes = (
     <Switch>
     <Route path="/list" component ={MainScene}/>
-    <Route path="/" exact = {true} component={AuthScene} />
+    <Route path="/auth" exact = {true} component={AuthScene} />
     </Switch>
   )
   return (

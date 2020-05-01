@@ -3,10 +3,17 @@ import { InputGroup, Button } from "@blueprintjs/core";
 import "./index.scss";
 import { userLogin } from './../../store/actions/user';
 import { connect } from "react-redux";
+import { useHistory } from "react-router";
+import { StoreRootState } from './../../store/types';
+import { getLocalStorageToken } from "../../utils";
 interface AuthSceneProps {
   userLogin: (payload: {username: string, password: string}) => Promise<any>
 }
 const AuthScene = (props: AuthSceneProps) => {
+  const history = useHistory()
+  if(getLocalStorageToken()) {
+    history.push("/list")
+  }
   const [username, setUsername] = React.useState<string>("")
   const [password, setPassword] = React.useState<string>("")
   const onLoginClick = () => {
@@ -32,4 +39,4 @@ const AuthScene = (props: AuthSceneProps) => {
   );
 };
 
-export default connect(null, {userLogin})(AuthScene);
+export default connect((store: StoreRootState) => ({token: store.user.token}), {userLogin})(AuthScene);
