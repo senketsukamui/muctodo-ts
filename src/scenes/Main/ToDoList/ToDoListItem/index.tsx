@@ -2,7 +2,7 @@ import React from "react";
 import "./index.scss";
 import { Todo, PrimaryKey, TodoFetch } from "../../../../store/types";
 import { Button, Icon, PopoverPosition, TextArea } from "@blueprintjs/core";
-import { formatISO } from "date-fns";
+import { format } from "date-fns";
 import { connect } from "react-redux";
 import { deleteToDo } from "../../../../store/actions/todo";
 import { editToDo } from "./../../../../store/actions/todo";
@@ -67,8 +67,12 @@ const ToDoListItem = (props: ToDoListItemProps) => {
           icon={props.todo.completed ? "confirm" : "circle"}
           onClick = {onCompleteClick}
         />
-        {!isEditable ? (
+        {!isEditable ? (<div>
           <div className="todo-item__content">{props.todo.content}</div>
+          <span>{props.todo.remind_at === null
+            ? ""
+            : `${format(new Date(props.todo.remind_at), "do MMM")}`}</span>
+              </div>
         ) : (
           <textarea
             className="todo-item__content-edit"
@@ -91,13 +95,13 @@ const ToDoListItem = (props: ToDoListItemProps) => {
             Delete
           </Button>
         </div>
-        <div className="todo-item__remind-date">
+        {/* <div className="todo-item__remind-date">
           {props.todo.remind_at === null
             ? ""
             : `Remind at: ${formatISO(new Date(props.todo.remind_at), {
                 representation: "date",
               })}`}
-        </div>
+        </div> */}
       </div>
     </div>
   );

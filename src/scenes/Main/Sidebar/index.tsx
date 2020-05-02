@@ -19,7 +19,8 @@ const Sidebar = (props: SidebarProps) => {
     <div className="sidebar__username">New User</div>
     <div className="sidebar__notes">Notes</div>
     <div className="sidebar__groups">Groups</div>
-    <Button text = "Logout" intent="danger" onClick = {onLogoutClick}/>
+    <div className="sidebar__welcome" onClick={() => history.push("/welcome")}>Welcome</div>
+    <Button className="sidebar__logout-button" text = "Logout" intent="danger" onClick = {onLogoutClick}/>
   </div>
 
 }
