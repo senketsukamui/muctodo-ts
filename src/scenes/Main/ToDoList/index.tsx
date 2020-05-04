@@ -8,6 +8,7 @@ import store from "../../../store";
 import ToDoListGroup from "./ToDoListGroup";
 import { createGroup } from "./../../../store/actions/todo";
 import Loader from "../../../components/Loader";
+import AnimatedPageTransition from "../../../components/AnimatedPageTransition";
 
 const ToDoList = (props: any) => {
   const toDoToRender = Object.entries(props.groups).map((p: any) => (
@@ -30,6 +31,7 @@ const ToDoList = (props: any) => {
     return <div>Something went wrong</div>;
   } else {
     return (
+      <AnimatedPageTransition>
       <div className="todo-list">
         <div className="todo-list__title">Your tasks To Do</div>
         <div className="todo-list__list">{toDoToRender}</div>
@@ -45,6 +47,7 @@ const ToDoList = (props: any) => {
           type="text"
         ></InputGroup>
       </div>
+      </AnimatedPageTransition>
     );
   }
 };

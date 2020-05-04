@@ -9,7 +9,9 @@ import { editToDo } from "./../../../../store/actions/todo";
 interface ToDoListItemProps {
   todo: Todo;
   deleteToDo: (payload: { id: PrimaryKey; group: PrimaryKey }) => Promise<any>;
-  editToDo: (payload: TodoFetch & { id: PrimaryKey, completed?: boolean }) => Promise<any>;
+  editToDo: (
+    payload: TodoFetch & { id: PrimaryKey; completed?: boolean }
+  ) => Promise<any>;
 }
 
 const ToDoListItem = (props: ToDoListItemProps) => {
@@ -34,7 +36,6 @@ const ToDoListItem = (props: ToDoListItemProps) => {
   const onEditClick = (e: any) => {
     if (isEditable === true) {
       props.editToDo({
-        
         id: props.todo.id,
         content: todoInput,
         remind_at: props.todo.remind_at,
@@ -52,9 +53,9 @@ const ToDoListItem = (props: ToDoListItemProps) => {
       remind_at: props.todo.remind_at,
       group: props.todo.group,
       position: props.todo.position,
-      completed: !props.todo.completed
-    })
-  }
+      completed: !props.todo.completed,
+    });
+  };
   return (
     <div
       className="todo-item"
@@ -65,14 +66,17 @@ const ToDoListItem = (props: ToDoListItemProps) => {
         <Icon
           className="todo-item__complete-button"
           icon={props.todo.completed ? "confirm" : "circle"}
-          onClick = {onCompleteClick}
+          onClick={onCompleteClick}
         />
-        {!isEditable ? (<div>
-          <div className="todo-item__content">{props.todo.content}</div>
-          <span>{props.todo.remind_at === null
-            ? ""
-            : `${format(new Date(props.todo.remind_at), "do MMM")}`}</span>
-              </div>
+        {!isEditable ? (
+          <div>
+            <div className="todo-item__content">{props.todo.content}</div>
+            <span>
+              {props.todo.remind_at === null
+                ? ""
+                : `${format(new Date(props.todo.remind_at), "do MMM")}`}
+            </span>
+          </div>
         ) : (
           <textarea
             className="todo-item__content-edit"
@@ -85,23 +89,18 @@ const ToDoListItem = (props: ToDoListItemProps) => {
         )}
       </div>
       <div className="todo-item__right-wrapper">
-        {!props.todo.completed?<div className="todo-item__edit-button">
-          <Button icon="edit" onClick={onEditClick}>
-            Edit
-          </Button>
-        </div>: ""}
+        {!props.todo.completed && (
+          <div className="todo-item__edit-button">
+            <Button icon="edit" onClick={onEditClick}>
+              Edit
+            </Button>
+          </div>
+        )}
         <div className="todo-item__delete-button">
           <Button icon="trash" intent="danger" onClick={onDeleteClick}>
             Delete
           </Button>
         </div>
-        {/* <div className="todo-item__remind-date">
-          {props.todo.remind_at === null
-            ? ""
-            : `Remind at: ${formatISO(new Date(props.todo.remind_at), {
-                representation: "date",
-              })}`}
-        </div> */}
       </div>
     </div>
   );

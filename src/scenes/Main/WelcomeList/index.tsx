@@ -1,12 +1,17 @@
 import React from "react";
 import { StoreRootState, TodoState } from "./../../../store/types";
 import { connect } from "react-redux";
+import AnimatedPageTransition from "../../../components/AnimatedPageTransition";
 interface WelcomeListProps {
-  groups: TodoState
+  groups: TodoState;
 }
 const WelcomeList = (props: WelcomeListProps) => {
-  const remindToday = Object.values(props.groups)
-  return <div>Test</div>;
+  const remindToday = Object.values(props.groups);
+  return (
+    <AnimatedPageTransition>
+      <div>Test</div>
+    </AnimatedPageTransition>
+  );
 };
 
 export default connect(
