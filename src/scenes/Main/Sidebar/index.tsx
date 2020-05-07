@@ -17,20 +17,24 @@ const Sidebar = (props: SidebarProps) => {
   };
   return (
     <div className="sidebar">
-      <div className="sidebar__username">New User</div>
-      <div className="sidebar__notes">Notes</div>
-      <div className="sidebar__groups" onClick={() => history.push("/list")}>
-        Groups
+      <div>
+        <div className="sidebar__username">New User</div>
+        <div className="sidebar__notes">Notes</div>
+        <div className="sidebar__groups" onClick={() => history.push("/list")}>
+          Groups
+        </div>
+        <div className="sidebar__welcome" onClick={() => history.push("/")}>
+          Welcome
+        </div>
       </div>
-      <div className="sidebar__welcome" onClick={() => history.push("/")}>
-        Welcome
+      <div>
+        <Button
+          className="sidebar__logout-button"
+          text="Logout"
+          intent="danger"
+          onClick={onLogoutClick}
+        />
       </div>
-      <Button
-        className="sidebar__logout-button"
-        text="Logout"
-        intent="danger"
-        onClick={onLogoutClick}
-      />
     </div>
   );
 };

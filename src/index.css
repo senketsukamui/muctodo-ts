@@ -34,15 +34,22 @@ code {
   font-weight: 700;
 }
 
-.font-medium{
+.font-medium {
   font-size: 1.5rem;
 }
-.font-big{
+
+.font-big {
   font-size: 2rem;
 }
+
 .text-center {
   text-align: center;
 }
+
 .background-color {
-  background-color:rgba(0, 0, 0, 0.65);
+  background-color: rgba(0, 0, 0, 0.65);
+}
+
+.flex {
+  display: flex;
 }

@@ -38,18 +38,24 @@ export const toDoReducer = createReducer<TodoState, Action>(
       ...state,
       todoCreating: true,
     }),
-    [ActionTypes.CREATE_TODO_SUCCESS]: (state: TodoState, action: any) => ({
-      ...state,
-      groups: {
-        ...state.groups,
-        [action.payload.group]: {
-          ...state.groups[action.payload.group],
-          todos: [...state.groups[action.payload.group].todos, action.payload],
+    [ActionTypes.CREATE_TODO_SUCCESS]: (state: TodoState, action: any) => {
+      console.log(action);
+      return {
+        ...state,
+        groups: {
+          ...state.groups,
+          [action.payload.group]: {
+            ...state.groups[action.payload.group],
+            todos: [
+              ...state.groups[action.payload.group].todos,
+              action.payload,
+            ],
+          },
         },
-      },
-      todoCreating: false,
-      todoCreatingFailed: false,
-    }),
+        todoCreating: false,
+        todoCreatingFailed: false,
+      };
+    },
     [ActionTypes.CREATE_TODO_FAIL]: (state: TodoState, action: any) => ({
       ...state,
       todoCreating: false,
@@ -71,11 +77,11 @@ export const toDoReducer = createReducer<TodoState, Action>(
     [ActionTypes.CREATE_GROUP_FAIL]: (state: TodoState, action: any) => ({
       ...state,
       groupCreating: false,
-      groupCreatingFailed: true
+      groupCreatingFailed: true,
     }),
     [ActionTypes.DELETE_TODO_START]: (state: TodoState, action: any) => ({
       ...state,
-      todoDeleting: true
+      todoDeleting: true,
     }),
     [ActionTypes.DELETE_TODO_SUCCESS]: (state: TodoState, action: any) => ({
       ...state,
@@ -89,12 +95,12 @@ export const toDoReducer = createReducer<TodoState, Action>(
         },
       },
       todoDeleting: false,
-      todoDeletingFailed: false
+      todoDeletingFailed: false,
     }),
     [ActionTypes.DELETE_TODO_FAIL]: (state: TodoState, action: any) => ({
       ...state,
       todoDeletingFailed: true,
-      todoDeleting: false
+      todoDeleting: false,
     }),
     [ActionTypes.EDIT_TODO_START]: (state: TodoState, action: any) => ({
       ...state,
@@ -116,14 +122,14 @@ export const toDoReducer = createReducer<TodoState, Action>(
         ...state,
         groups: nextGroups,
         todoEditing: false,
-        todoEditingFailed: false
+        todoEditingFailed: false,
       };
     },
     [ActionTypes.EDIT_TODO_FAIL]: (state: TodoState, action: any) => ({
       ...state,
       todoEditingFailed: true,
-      todoEditing: false
-    })
+      todoEditing: false,
+    }),
   },
   initialState
 );

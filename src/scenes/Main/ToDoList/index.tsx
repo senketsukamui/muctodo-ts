@@ -17,7 +17,6 @@ const ToDoList = (props: any) => {
   const inputRef = React.createRef<InputGroup>();
   const [inputState, setInputState] = React.useState<string>("");
   const onAddClick = () => {
-    console.log(inputState);
     props.createGroup({ title: inputState });
   };
   const rightElement = (
@@ -31,7 +30,6 @@ const ToDoList = (props: any) => {
     return <div>Something went wrong</div>;
   } else {
     return (
-      <AnimatedPageTransition>
       <div className="todo-list">
         <div className="todo-list__title">Your tasks To Do</div>
         <div className="todo-list__list">{toDoToRender}</div>
@@ -47,7 +45,6 @@ const ToDoList = (props: any) => {
           type="text"
         ></InputGroup>
       </div>
-      </AnimatedPageTransition>
     );
   }
 };

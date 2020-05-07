@@ -12,7 +12,13 @@ const ToDoListGroup = (props: any) => {
     <ToDoListItem todo={p} />
   ));
   const currentGroup = props.groupedTodos.id;
-  const onAddClick = () => {
+  const [isInputOpen, setInputOpen] = React.useState<boolean>(false);
+
+  const onInputButtonClick = () => {
+    setInputOpen(!isInputOpen);
+  };
+  const onAddClick = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const todoToFetch = {
       content: inputState,
       remind_at: remindDate,
@@ -20,37 +26,37 @@ const ToDoListGroup = (props: any) => {
       position: 1,
     };
     props.createToDo(todoToFetch);
+    setInputOpen(false);
   };
-  const inputRef = React.createRef<InputGroup>();
   const [remindDate, setRemindDate] = React.useState<Date>(new Date());
   const [inputState, setInputState] = React.useState<string>("");
-  const rightInputElement = (
-    <div className="right-input-element">
-      <DatePicker
-        className="right-input-element__date-picker form-control"
-        selected={remindDate}
-        onChange={(date: Date) => setRemindDate(date)}
-      />
-      <Button className="right-input-element__button" onClick={onAddClick}>
-        Add
-      </Button>
-    </div>
-  );
   return (
     <div>
-      <div>{props.groupedTodos.title}</div>
+      <div className="font-medium">{props.groupedTodos.title}</div>
       <div className="todo-group">{renderedGroupedTodos}</div>
-      <InputGroup
-        ref={inputRef}
-        className="todo-list__add__input"
-        leftIcon="add"
-        rightElement={rightInputElement}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setInputState(e.target.value)
-        }
-        placeholder="Add new task"
-        type="text"
-      ></InputGroup>
+      {isInputOpen ? (
+        <form onSubmit={onAddClick}>
+          <InputGroup
+            className="todo-list__add__input"
+            leftIcon="add"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setInputState(e.target.value)
+            }
+            placeholder="Add new task"
+            type="text"
+          ></InputGroup>
+          <Button className="right-input-element__button" type="submit">
+            Add
+          </Button>
+          <DatePicker
+            className="right-input-element__date-picker form-control"
+            selected={remindDate}
+            onChange={(date: Date) => setRemindDate(date)}
+          />
+        </form>
+      ) : (
+        <Button icon="add" onClick={onInputButtonClick} />
+      )}
     </div>
   );
 };

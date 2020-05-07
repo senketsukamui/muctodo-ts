@@ -18,7 +18,7 @@ import _ from "lodash";
 export const createToDo = (payload: { todo: TodoFetch }) => (
   dispatch: ThunkDispatch<StoreRootState, any, Action>
 ) => {
-  console.log("todo", payload)
+  console.log("todo", payload);
   dispatch({ type: ActionTypes.CREATE_TODO_START });
   return postRequest("https://muctodo.a6raywa1cher.com/todos/", payload)
     .then((json: any) => {
@@ -80,9 +80,9 @@ export const deleteToDo = (payload: { id: PrimaryKey; group: PrimaryKey }) => (
     });
 };
 
-export const editToDo = (payload: TodoFetch & { id: PrimaryKey, completed?: boolean }) => (
-  dispatch: ThunkDispatch<StoreRootState, any, Action>
-) => {
+export const editToDo = (
+  payload: TodoFetch & { id: PrimaryKey; completed?: boolean }
+) => (dispatch: ThunkDispatch<StoreRootState, any, Action>) => {
   dispatch({ type: ActionTypes.EDIT_TODO_START });
   return patchRequest(
     `https://muctodo.a6raywa1cher.com/todos/${payload.id}/`,
