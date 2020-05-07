@@ -1,19 +1,29 @@
 import React from "react";
-import { StoreRootState, TodoState } from "./../../../store/types";
+import { StoreRootState, TodoState, Todo } from "./../../../store/types";
 import { connect } from "react-redux";
 import AnimatedPageTransition from "../../../components/AnimatedPageTransition";
-import { isEqual } from "date-fns";
+import { isToday } from "date-fns";
+import _ from "lodash";
+import ToDoListItem from "./../ToDoList/ToDoListItem/index";
 interface WelcomeListProps {
   groups: TodoState;
 }
 const WelcomeList = (props: WelcomeListProps) => {
-  const allToDos = [];
-  console.log(Object.values(props.groups));
-  const remindToday = Object.values(props.groups).map((e: any) =>
-    e.todos.map((todo: any) => allToDos.push(todo))
+  const allToDos = React.useMemo(
+    () => _.flatten(Object.values(_.mapValues(props.groups, "todos"))),
+    [props.groups]
   );
-  console.log(remindToday);
-  return <div>Test</div>;
+  const remindToday = React.useMemo(
+    () =>
+      allToDos.filter((e: Todo) =>
+        e.remind_at ? isToday(new Date(e.remind_at)) : false
+      ),
+    [allToDos]
+  );
+  const todosToRender = remindToday.map((todo: Todo) => (
+    <ToDoListItem todo={todo} />
+  ));
+  return <div>{todosToRender}</div>;
 };
 
 export default connect(
