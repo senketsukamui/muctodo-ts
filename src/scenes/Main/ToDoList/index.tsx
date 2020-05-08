@@ -2,7 +2,7 @@ import React, { FormEvent, RefObject } from "react";
 import "./index.scss";
 import ToDoListItem from "./ToDoListItem";
 import { Button, InputGroup } from "@blueprintjs/core";
-import { StoreRootState, Todos } from "./../../../store/types";
+import { StoreRootState, Todo } from "./../../../store/types";
 import { connect } from "react-redux";
 import store from "../../../store";
 import ToDoListGroup from "./ToDoListGroup";
@@ -11,9 +11,15 @@ import Loader from "../../../components/Loader";
 import AnimatedPageTransition from "../../../components/AnimatedPageTransition";
 
 const ToDoList = (props: any) => {
-  const toDoToRender = Object.entries(props.groups).map((p: any) => (
-    <ToDoListGroup groupedTodos={p[1]} />
-  ));
+  const toDoToRender = Object.values(props.groups).map((p: any) => {
+    const progressBarValue = (
+      p.todos.filter((e: Todo) => e.completed).length / p.todos.length
+    ).toFixed(2);
+    console.log(progressBarValue);
+    return (
+      <ToDoListGroup groupedTodos={p} progressBarValue={progressBarValue} />
+    );
+  });
   const inputRef = React.createRef<InputGroup>();
   const [inputState, setInputState] = React.useState<string>("");
   const onAddClick = () => {

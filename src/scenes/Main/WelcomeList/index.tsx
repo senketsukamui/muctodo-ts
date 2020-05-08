@@ -13,17 +13,13 @@ const WelcomeList = (props: WelcomeListProps) => {
     () => _.flatten(Object.values(_.mapValues(props.groups, "todos"))),
     [props.groups]
   );
-  const remindToday = React.useMemo(
-    () =>
-      allToDos.filter((e: Todo) =>
-        e.remind_at ? isToday(new Date(e.remind_at)) : false
-      ),
-    [allToDos]
+  const remindToday = allToDos.filter((e: Todo) =>
+    e.remind_at ? isToday(new Date(e.remind_at)) : false
   );
   const todosToRender = remindToday.map((todo: Todo) => (
     <ToDoListItem todo={todo} />
   ));
-  return <div>{todosToRender}</div>;
+  return <div>{todosToRender && "There are no todos to remind today."}</div>;
 };
 
 export default connect(

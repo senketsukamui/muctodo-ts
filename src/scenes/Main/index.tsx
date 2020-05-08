@@ -5,8 +5,14 @@ import ToDoList from "./ToDoList";
 import { connect } from "react-redux";
 import { getToDos } from "../../store/actions/todo";
 import { createToDo, editToDo } from "./../../store/actions/todo";
-import { TodoFetch,  StoreRootState } from "./../../store/types";
-import { useHistory, Switch, Route, withRouter, RouteComponentProps } from "react-router-dom";
+import { TodoFetch, StoreRootState } from "./../../store/types";
+import {
+  useHistory,
+  Switch,
+  Route,
+  withRouter,
+  RouteComponentProps,
+} from "react-router-dom";
 import { getLocalStorageToken } from "../../utils";
 import WelcomeList from "./WelcomeList";
 interface MainSceneProps extends RouteComponentProps {
@@ -29,7 +35,7 @@ const MainScene = (props: MainSceneProps) => {
       <div className="main-content">
         <div className="main-content__list">
           <Switch>
-            <Route path="/" exact = {true} component={WelcomeList} />
+            <Route path="/" exact={true} component={WelcomeList} />
             <Route path="/list" component={ToDoList} />
           </Switch>
         </div>
@@ -38,7 +44,10 @@ const MainScene = (props: MainSceneProps) => {
   );
 };
 
-export default withRouter(connect(
-  (store: StoreRootState) => ({ token: store.user.token }),
-  { getToDos, createToDo, editToDo }
-)(MainScene));
+export default withRouter(
+  connect((store: StoreRootState) => ({ token: store.user.token }), {
+    getToDos,
+    createToDo,
+    editToDo,
+  })(MainScene)
+);
