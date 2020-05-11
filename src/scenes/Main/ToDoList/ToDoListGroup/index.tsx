@@ -9,16 +9,13 @@ import { createToDo } from "./../../../../store/actions/todo";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { Todo } from "./../../../../store/types";
+import { ceil } from "lodash";
 
 const ToDoListGroup = (props: any) => {
   const renderedGroupedTodos = props.groupedTodos.todos.map((p: any) => (
     <ToDoListItem todo={p} />
   ));
   const currentGroup = props.groupedTodos.id;
-  // const progressBarValue =
-  //   Object.values(props.groupedTodos)
-  //     .filter((e: Todo) => e.completed)
-  //     .length() / props.groupedTodos.length();
   const [isInputOpen, setInputOpen] = React.useState<boolean>(false);
   const onInputButtonClick = () => {
     setInputOpen(!isInputOpen);
@@ -38,15 +35,15 @@ const ToDoListGroup = (props: any) => {
   const [inputState, setInputState] = React.useState<string>("");
   return (
     <div>
-      <div className="font-medium">{props.groupedTodos.title}</div>
-      <div>
-        <CircularProgressbar
-          value={props.progressBarValue == NaN ? 0 : props.progressBarValue}
-          text={`${
-            props.progressBarValue == NaN ? "0%" : props.progressBarValue * 100
-          }%`}
-          maxValue={1}
-        />
+      <div className="flex flex__space-between">
+        <div className="font-medium">{props.groupedTodos.title}</div>
+        <div style={{ width: 60, height: 60 }}>
+          <CircularProgressbar
+            value={props.progressBarValue}
+            text={`${ceil(props.progressBarValue * 100)}%`}
+            maxValue={1}
+          />
+        </div>
       </div>
       <div className="todo-group">{renderedGroupedTodos}</div>
       {isInputOpen ? (

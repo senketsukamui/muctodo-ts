@@ -53,3 +53,7 @@ code {
 .flex {
   display: flex;
 }
+
+.flex__space-between {
+  justify-content: space-between;
+}

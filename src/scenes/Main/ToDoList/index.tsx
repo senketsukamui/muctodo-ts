@@ -12,10 +12,10 @@ import AnimatedPageTransition from "../../../components/AnimatedPageTransition";
 
 const ToDoList = (props: any) => {
   const toDoToRender = Object.values(props.groups).map((p: any) => {
-    const progressBarValue = (
-      p.todos.filter((e: Todo) => e.completed).length / p.todos.length
-    ).toFixed(2);
-    console.log(progressBarValue);
+    const completedTodos = p.todos.filter((e: Todo) => e.completed);
+    const progressBarValue = p.todos.length
+      ? parseFloat((completedTodos.length / p.todos.length).toFixed(2))
+      : 0;
     return (
       <ToDoListGroup groupedTodos={p} progressBarValue={progressBarValue} />
     );
