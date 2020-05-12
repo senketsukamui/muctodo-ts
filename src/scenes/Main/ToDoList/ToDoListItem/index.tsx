@@ -74,7 +74,7 @@ const ToDoListItem = (props: ToDoListItemProps) => {
             <span>
               {props.todo.remind_at === null
                 ? ""
-                : `${format(new Date(props.todo.remind_at), "do MMM")}`}
+                : `${format(new Date(props.todo.remind_at), "MMM d, H:m")}`}
             </span>
           </div>
         ) : (

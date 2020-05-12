@@ -4,9 +4,12 @@ import { connect } from "react-redux";
 import AnimatedPageTransition from "../../../components/AnimatedPageTransition";
 import { isToday } from "date-fns";
 import _ from "lodash";
+import "./index.scss";
 import ToDoListItem from "./../ToDoList/ToDoListItem/index";
+import Loader from "./../../../components/Loader/index";
 interface WelcomeListProps {
   groups: TodoState;
+  todosLoading: boolean;
 }
 const WelcomeList = (props: WelcomeListProps) => {
   const allToDos = React.useMemo(
@@ -19,10 +22,20 @@ const WelcomeList = (props: WelcomeListProps) => {
   const todosToRender = remindToday.map((todo: Todo) => (
     <ToDoListItem todo={todo} />
   ));
-  return <div>{todosToRender && "There are no todos to remind today."}</div>;
+  return (
+    <div>
+      <div className="welcome-list__title font-big">Today tasks</div>
+      <div className="welcome-list__todos">
+        {todosToRender ? todosToRender : "No tasks for today"}
+      </div>
+    </div>
+  );
 };
 
 export default connect(
-  (store: StoreRootState) => ({ groups: store.todo.groups }),
+  (store: StoreRootState) => ({
+    groups: store.todo.groups,
+    todosLoading: store.todo.todosLoading,
+  }),
   null
 )(WelcomeList);
