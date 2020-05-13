@@ -96,3 +96,11 @@ export const editToDo = (
       dispatch({ type: ActionTypes.EDIT_TODO_FAIL });
     });
 };
+
+export const changeTodoPosition = (payload: {
+  id: PrimaryKey;
+  group: PrimaryKey;
+  newPosition: number;
+}) => (dispatch: ThunkDispatch<StoreRootState, any, Action>) => {
+  dispatch({ type: ActionTypes.CHANGE_TODO_POSITION, payload: payload });
+};

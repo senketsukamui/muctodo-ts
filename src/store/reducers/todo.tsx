@@ -39,7 +39,6 @@ export const toDoReducer = createReducer<TodoState, Action>(
       todoCreating: true,
     }),
     [ActionTypes.CREATE_TODO_SUCCESS]: (state: TodoState, action: any) => {
-      console.log(action);
       return {
         ...state,
         groups: {
@@ -130,6 +129,21 @@ export const toDoReducer = createReducer<TodoState, Action>(
       todoEditingFailed: true,
       todoEditing: false,
     }),
+    [ActionTypes.CHANGE_TODO_POSITION]: (state: TodoState, action: any) => {
+      const idx = state.groups[action.payload.group].todos.findIndex(
+        (todo) => todo.id === action.payload.id
+      );
+      if (idx === -1) return state;
+
+      const newGroups = { ...state.groups };
+      newGroups[action.payload.group].todos[idx].position =
+        action.payload.newPosition;
+
+      return {
+        ...state,
+        groups: newGroups,
+      };
+    },
   },
   initialState
 );

@@ -9,6 +9,7 @@ import ToDoListGroup from "./ToDoListGroup";
 import { createGroup } from "./../../../store/actions/todo";
 import Loader from "../../../components/Loader";
 import AnimatedPageTransition from "../../../components/AnimatedPageTransition";
+import { DragDropContext } from "react-beautiful-dnd";
 
 const ToDoList = (props: any) => {
   const toDoToRender = Object.values(props.groups).map((p: any) => {
@@ -30,6 +31,10 @@ const ToDoList = (props: any) => {
       <Button onClick={onAddClick}>Add</Button>
     </div>
   );
+  const onDragEnd = (result: any) => {
+    console.log(result);
+    return result;
+  };
   if (props.todosLoading) {
     return <Loader />;
   } else if (props.todosLoadingFailed) {
@@ -38,7 +43,9 @@ const ToDoList = (props: any) => {
     return (
       <div className="todo-list">
         <div className="todo-list__title">Your tasks To Do</div>
-        <div className="todo-list__list">{toDoToRender}</div>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <div className="todo-list__list">{toDoToRender}</div>
+        </DragDropContext>
         <InputGroup
           ref={inputRef}
           leftIcon="add"

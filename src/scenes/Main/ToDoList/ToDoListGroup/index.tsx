@@ -8,16 +8,31 @@ import { createToDo } from "./../../../../store/actions/todo";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { ceil } from "lodash";
-import Loader from "./../../../../components/Loader/index";
 import { addDays } from "date-fns";
 import DatePicker from "react-datepicker";
-
 import "react-datepicker/dist/react-datepicker.css";
+import { Droppable, Draggable } from "react-beautiful-dnd";
 
 const ToDoListGroup = (props: any) => {
-  const renderedGroupedTodos = props.groupedTodos.todos.map((p: any) => (
-    <ToDoListItem todo={p} />
-  ));
+  const renderedGroupedTodos = props.groupedTodos.todos.map(
+    (p: any, index: any) => (
+      <Draggable
+        draggableId={p.id.toString()}
+        index={Math.abs(100 - index)}
+        key={p}
+      >
+        {(provided) => (
+          <div
+            ref={provided.innerRef}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+          >
+            <ToDoListItem todo={p} />
+          </div>
+        )}
+      </Draggable>
+    )
+  );
   const currentGroup = props.groupedTodos.id;
   const [isInputOpen, setInputOpen] = React.useState<boolean>(false);
   const [remindDate, setRemindDate] = React.useState<Date | null>(new Date());
@@ -38,7 +53,7 @@ const ToDoListGroup = (props: any) => {
     setRemindDate(new Date());
   };
   const buttonTypeHandler = (type: string) => (e: any) => {
-    if (remindDate == null) {
+    if (remindDate == null || !inputState) {
       return;
     }
     if (type === "tomorrow") {
@@ -62,7 +77,16 @@ const ToDoListGroup = (props: any) => {
           />
         </div>
       </div>
-      <div className="todo-group">{renderedGroupedTodos}</div>
+      <div className="todo-group">
+        <Droppable droppableId="group">
+          {(provided) => (
+            <div {...provided.droppableProps} ref={provided.innerRef}>
+              {renderedGroupedTodos}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </div>
       {isInputOpen ? (
         <form onSubmit={onFormSubmit}>
           <InputGroup
@@ -97,11 +121,16 @@ const ToDoListGroup = (props: any) => {
             >
               Create with no remind
             </Button>
-            <DatePicker
-              onChange={(e: any) => setRemindDate(e.target.value)}
-              showTimeSelect
-              selected={remindDate}
-            />
+            <span>
+              <DatePicker
+                onChange={(date: any) => setRemindDate(date)}
+                showTimeSelect
+                selected={remindDate}
+              />
+              <Button type="submit" onClick={buttonTypeHandler("current-date")}>
+                Create by current date
+              </Button>
+            </span>
           </div>
         </form>
       ) : props.todoCreating ? (
